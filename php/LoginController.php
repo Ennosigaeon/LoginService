@@ -17,7 +17,7 @@ class LoginController {
 
     private $validationFunc;
 
-    public static function getInstance(): LoginController {
+    public static function getInstance() {
         if (self::$instance == null) {
             self::$instance = new LoginController();
         }
@@ -25,13 +25,13 @@ class LoginController {
         return self::$instance;
     }
 
-    public function isLoggedIn() : bool {
+    public function isLoggedIn() {
         session_start();
 
         return array_key_exists(LoginController::$LOGIN_NAME, $_SESSION);
     }
 
-    public function logIn(string $name, string $pw) : bool {
+    public function logIn($name, $pw) {
         if ($this->validCredentials($name, $pw)) {
             session_start();
             $_SESSION[LoginController::$LOGIN_NAME] = $name;
@@ -62,7 +62,7 @@ class LoginController {
      *
      * @return bool Returns whether this request was handled or not
      */
-    public function processRequest() : bool {
+    public function processRequest() {
         //request should not be handled by LoginController
         if (!array_key_exists('loginController', $_GET) && !array_key_exists('loginController', $_POST)) {
             return false;
@@ -95,23 +95,8 @@ class LoginController {
         return true;
     }
 
-    private function validCredentials(string $name, string $pw) {
+    private function validCredentials($name, $pw) {
         return call_user_func($this->validationFunc, $name, $pw);
     }
-
-//    private function validCredentials(string $name, string $pw) : bool {
-//        $con = AppConfig::getConnection();
-//        $stat = $con->prepare("SELECT * FROM user WHERE username = :name");
-//        $stat->execute(array(":name" => $name));
-//
-//        $row = $stat->fetch();
-//        if (!$row) {
-//            return false;
-//        }
-//
-//        $hash = hash("sha256", $pw . $row["salt"]);
-//
-//        return hash_equals($row["pw"], $hash);
-//    }
 
 }

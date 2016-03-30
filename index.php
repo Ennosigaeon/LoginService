@@ -49,7 +49,7 @@ if ($loginController->processRequest()) {
     </div>
 </div>
 
-<?php include "js/login.html" ?>
+<?php include "login.html" ?>
 
 </body>
 </html>
