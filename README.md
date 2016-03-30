@@ -1,1 +1,1 @@
-# LoginService
+# LoginServiceThis library provides easy to use support of an authentication service. See index.php for usage.
